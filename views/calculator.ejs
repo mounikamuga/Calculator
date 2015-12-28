@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
+ <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+ <link data-require="bootstrap-css@3.0.3" data-semver="3.0.3" rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" />
+ <script>
+  var myApp = angular.module('myApp', []);
+  myApp.controller('myCtrl', function($scope,$http) {
+   $scope.operator = '+';   
+   $scope.operators = {
+		     '+': 'add',
+		     '-': 'sub',
+		     '*':  'mul',
+		     '/': 'div'
+		     
+		   };
+   
+   $scope.calculate = function calculate(operator, x, y) {
+   	var request = $http({
+   		method : "post",
+   		url : '/calculate',
+   		data : {
+	   		operator : $scope.operators[operator],
+	   		n1 : x,
+	   		n2 : y
+   		}
+   	});
+   	request.success(
+   	function(response){
+   		$scope.result = response
+   	});
+   		
+   }
+  
+ });
+  </script>
+</head>
+<body>
+<h1 align="center">Calculator</h1>
+<div class="offset4 span6 well" align="center">
+  <div ng-app="myApp">
+  <div ng-controller="myCtrl" ng-init='cal=true'>
+    <div class="offset4 span6 well">
+      <label>Enter a value :</label>
+      <input ng-model="fn" type="text" ng-focus='cal="fn"'>
+      <br/>
+      <br>
+      <label>Another Value:</label>
+      <input ng-model="sn" type="text" ng-focus='cal="sn"'>
+      <br/>
+      <br>
+      <label>Operator:</label>{{ operator }}
+      <br>
+      <br>
+      <button ng-repeat="n in [0,1,2,3,4,5,6,7,8,9]" ng-click='$parent[cal]=$parent[cal]+""+n'>{{n}}</button>
+      <br>
+      <button ng-repeat="(key,val) in operators" ng-click="$parent.operator=key">{{key}}</button>
+      <button ng-click="calculate(operator,fn,sn)">=</button>
+      <br>
+      <br>Result: {{result}}
+    </div>
+  </div>
+  </div>
+  </div>
+</body>
+</html>
