@@ -1,16 +1,7 @@
 
+#Calculator
 
-# projcalculator
-
-
-
-## Usage
-
-
-
-## Developing
-
-
+A simple calculator application developed using NodeJS.
 
 ### Tools
 
